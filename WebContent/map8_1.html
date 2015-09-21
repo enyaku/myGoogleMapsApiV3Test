@@ -1,0 +1,43 @@
+
+
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>サンプル：イベント(load, addoverlay, error)の利用</title>
+    <script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyBq3lMiiQlQMfe3C2KyPEaz3PthX62VCZI&sensor=false"
+            type="text/javascript" charset="utf-8"></script>
+    <script src="./js/code8_1.js" type="text/javascript"></script>
+  </head>
+  <body onload="initialize()" onunload="GUnload()">
+  
+  GDirectionsクラスのオブジェクトは3つのイベントを発行します。
+
+<BR>
+load          ルート結果が正常に返されたときに、オーバーレイ要素が地図やパネルに
+              追加される前にトリガされます。
+
+<BR>
+addoverlay    ポリラインまたはテキストのルート コンポーネント、あるいはその両方
+              が、地図または DIV 要素、あるいはその両方に追加された後にトリガさ
+              れます。
+
+<BR>
+error         ルート リクエストでエラーが発生した場合にトリガされます。
+
+<BR>
+例えばルート案内の結果が返されてからルートの情報を個別に取得したい場合は、loadイベントを取得するように設定しておき、呼び出される関数の中で処理を記述します。
+
+<BR>
+    <form>
+    <input type="text" size="20" id="from" value="東陽駅" />
+    --><input type="text" size="20" id="to" value="亀戸駅" />
+    <input type="button" id="btn1" value="ルート案内" onclick="dispRoute()" />
+    </form>
+
+    <div id="map_canvas" style="width: 500px; height: 300px"></div>
+    <div id="route" style="width: 500px; height: 200px;overflow: scroll"></div>
+  </body>
+</html>
+

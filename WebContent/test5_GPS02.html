@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<style>
+#googleMap {
+width: 100%;
+height: 100%;
+}
+</style>
+
+<!-- 
+Google Maps API ライブラリーの読み込み
+※APIキーは各自で取得してください。
+-->
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCEms0_HMMOszfn-h7xOxLr9mfGivpmvaw&sensor=true"></script>
+
+<script>
+// 取得した位置情報をGoogleMapで表示
+function positionMap(latitude, longitude) {
+var latlng = new google.maps.LatLng(latitude, longitude);
+var opt1 = {
+zoom: 15,
+center: latlng,
+mapTypeId: google.maps.MapTypeId.ROADMAP
+};
+var map = new google.maps.Map(document.getElementById("googleMap"), opt1);
+var opt2 = {
+position: latlng
+};
+var marker = new google.maps.Marker(opt2);
+marker.setMap(map);
+}
+
+// 位置情報の取得処理
+function getPosition() {
+navigator.geolocation.getCurrentPosition(getSuc,getErr);
+}
+
+// 位置情報が取得できた場合の処理
+function getSuc(pos){
+var latitude = pos.coords.latitude;
+var longitude = pos.coords.longitude;
+positionMap(latitude, longitude);
+}
+
+// 位置情報が取得できなかった場合の処理
+function getErr(err){
+alert("お使いの端末では現在地を取得できません。");
+}
+
+</script>
+
+<body>
+
+<input type="button" value="現在地取得" onclick="getPosition()">
+<div id="googleMap"></div>
+
+
+</body>
+</html>
+

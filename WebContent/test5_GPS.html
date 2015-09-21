@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+		<meta charset="utf-8">
+		<title>Reverse Geocoding Test</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+ 
+   <script>
+var geocoder;
+ 
+// 現在地の取得
+navigator.geolocation.getCurrentPosition(is_success,is_error);
+ 
+function is_success(position) {
+	var gpsLat = position.coords.latitude;
+	var gpsLng = position.coords.longitude;
+ 
+	gmap_init(gpsLat,gpsLng);
+}
+ 
+function is_error(error) {
+	var result = "";
+	switch(error.code) {
+		case 1:
+			result = '位置情報の取得が許可されていません';
+		break;
+		case 2:
+			result = '位置情報の取得に失敗';
+		break;
+		case 3:
+			result = 'タイムアウト';
+		break;
+	}
+	document.getElementById('message').innerHTML = result;
+}
+ 
+// googlemap init
+function gmap_init(gpsLat,gpsLng) {
+	geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(gpsLat,gpsLng);
+ 
+	geocoder.geocode({'latLng':latlng},function(results,status){
+		if (status == google.maps.GeocoderStatus.OK) {
+			console.log(results[1].formatted_address);
+			result 	= '現在地の取得に成功<br>';
+			result += '経度：' + gpsLat + '<br>';
+			result += '緯度：' + gpsLng + '<br>';
+			result += '住所：' + results[2].formatted_address + '<br>';
+ 
+			document.getElementById('message').innerHTML = result;
+ 
+		} else {
+			console.log(status);
+		}
+	});
+}
+    </script>
+	</head>
+	<body>
+<div id="message"></div>
+	</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" dir="ltr" lang="ja">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta name="description" content="TAMテクニカルチームがテーマ別の技術グループに分かれて「Tips Note」を、毎週更新します。" />
+<meta name="keywords" content="株式会社TAM,テクニカルチーム,TipsNote" />
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@tips_note">
+
+<title>  Googleマップに、GPSを使って現在位置(と誤差を表す円)を表示するサンプル | Tips Note</title>
+
+<link rel="stylesheet" type="text/css" media="all" href="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/style.css" />
+<link rel="stylesheet" type="text/css" media="all" href="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/css/common.css" />
+<script type="text/javascript" src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/js/smoothScroll.js"></script>
+<script type="text/javascript" src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/js/jquery.js"></script>
+<script type="text/javascript" src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/js/plugins.js"></script>
+<script type="text/javascript" src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/js/config.js"></script>
+
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.tam-tam.co.jp/tipsnote/feed" />
+<link rel="alternate" type="application/atom+xml" title="Atom cite contents" href="http://www.tam-tam.co.jp/tipsnote/feed/atom" />
+<link rel="pingback" href="http://www.tam-tam.co.jp/tipsnote/wpdata/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Tips Note &raquo; フィード" href="http://www.tam-tam.co.jp/tipsnote/feed" />
+<link rel="alternate" type="application/rss+xml" title="Tips Note &raquo; コメントフィード" href="http://www.tam-tam.co.jp/tipsnote/comments/feed" />
+<link rel="alternate" type="application/rss+xml" title="Tips Note &raquo; Googleマップに、GPSを使って現在位置(と誤差を表す円)を表示するサンプル のコメントのフィード" href="http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html/feed" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.tam-tam.co.jp\/tipsnote\/wpdata\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.5"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js?ver=1.10.2'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.tam-tam.co.jp/tipsnote/wpdata/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='PHPでxmlファイルを読み込んでみる' href='http://www.tam-tam.co.jp/tipsnote/program/post4168.html' />
+<link rel='next' title='【jQuery】長い文章を省略して表示する' href='http://www.tam-tam.co.jp/tipsnote/javascript/post4191.html' />
+<link rel='canonical' href='http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html' />
+<link rel='shortlink' href='http://www.tam-tam.co.jp/tipsnote/?p=4139' />
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+<body class="single single-post postid-4139 single-format-standard">
+<!-- Facebook Scripts -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.3&appId=481487432015851";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KZFKSB"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KZFKSB');</script>
+<!-- End Google Tag Manager -->
+
+<div id="wrap">
+<div id="header" class="clfix">
+<h1 id="siteTtl" class="blLeft"><a href="http://www.tam-tam.co.jp/tipsnote/" title="Tips Note" rel="home"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/common/header_title.gif" alt="Tips Note" width="428" height="118" /></a></h1>
+<div id="headerNavi" class="blRight">
+<div id="headDesc" class="clfix">
+<p class="blLeft">TAMテクニカルチームがテーマ別の技術グループに分かれて<br />
+「Tips Note」を、毎週更新します。</p>
+<p class="blRight"><a href="http://www.tam-tam.co.jp/" target="_blank"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/common/logo.gif" alt="TAM - タム ［Web運用・Webパートナー］" width="107" height="74" /></a></p>
+</div><!-- /headDesc -->
+<ul class="inblockList gather">
+<li><a href="http://www.tam-tam.co.jp/tipsnote/category/html_css"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/navi/btn_html_css.gif" alt="HTML・CSS" /></a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/category/javascript"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/navi/btn_javascript.gif" alt="JavaScript" /></a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/category/actionscript"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/navi/btn_actionscript.gif" alt="ActionScript" /></a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/category/cms"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/navi/btn_cms.gif" alt="CMS" /></a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/category/mobile"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/navi/btn_mobile.gif" alt="Mobile" /></a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/category/seo"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/navi/btn_seo.gif" alt="SEO" /></a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/category/program"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/navi/btn_program.gif" alt="Program" /></a></li>
+</ul>
+</div><!-- /headerNavi -->
+
+</div><!-- /header -->
+
+<div class="clfix">
+
+<ul id="breadcrumbs" class="inblockList">
+</ul>
+
+<div id="leftCont" class="blLeft">
+
+<h2><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/genre/genre_javascript.gif" alt="JavaScript" /></h2>
+
+
+<div id="post-4139" class="article post-4139 post type-post status-publish format-standard hentry category-javascript tag-googlemap tag-javascript-2">
+<div class="articleHead clfix">
+<div class="blLeft">
+<div class="articleMeta">
+<p class="postDate"><span>2014.1.24</span></p>
+<ul class="catName clfix">
+<li><span><a href="http://www.tam-tam.co.jp/tipsnote/category/javascript">JavaScript</a></span></li>
+</ul>
+<dl class="clfix">
+<dt>タグ：</dt>
+<dd><ul class="inblockList"><li><a href="http://www.tam-tam.co.jp/tipsnote/tag/googlemap" rel="tag">GoogleMap</a></li><li><a href="http://www.tam-tam.co.jp/tipsnote/tag/javascript-2" rel="tag">JavaScript</a></li></ul></dd>
+</dl>
+</div>
+<h2>Googleマップに、GPSを使って現在位置(と誤差を表す円)を表示するサンプル</h2>
+</div><!-- /blLeft -->
+<p class="blRight"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/author/p_matsuo.jpg" alt="matsuo" width="50" height="50" /></p>
+</div><!-- /articleHead -->
+
+<ul class="shareBtns inblockList">
+<li><div class="fb-like" data-href="http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div></li>
+<li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html" data-text="Googleマップに、GPSを使って現在位置(と誤差を表す円)を表示するサンプル | TipsNote" data-lang="ja">ツイート</a></li>
+<li><a href="http://b.hatena.ne.jp/entry/http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html" class="hatena-bookmark-button" data-hatena-bookmark-title="Googleマップに、GPSを使って現在位置(と誤差を表す円)を表示するサンプル | TipsNote" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a></li>
+<li><div class="g-plusone"></div></li>
+</ul>
+
+<div class="entryMain">
+<p>タイトルのとおりですが、Google マップ上に GPSなどを使って現在位置(と誤差の範囲を表す円)を表示するサンプルを作ってみました。</p>
+<p>HTML5関連の geolocation API というものを使えば、JavaScript から現在位置情報は簡単に取得できます。値はそのまま Google Maps API に渡せますので、連携自体はとても単純です。</p>
+<p>ちなみに、位置情報はGPS搭載のスマートフォンでないとダメというわけではなく、PCのブラウザなどからでも取得可能ですよ（環境による精度の差はありますが）。</p>
+<p>&nbsp;<br />
+<strong>■ サンプル</strong><br />
+(ブラウザから、位置情報を取得してよいかの確認が行われます)<br />
+<span id="more-4139"></span></p>
+<p><iframe src="http://tipsnote.github.io/gps-googlemap/" height="400" width="100%"></iframe></p>
+<p>どうでしょうか、おおよその現在位置と、誤差を表す半透明の青い円が表示されていますでしょうか？</p>
+<p>&nbsp;<br />
+<strong>■ 概要</strong></p>
+<p>全体のコードはあとでご紹介しますが、肝心の、位置情報の取得に必要な JavaScriptコードはたったこれだけです。</p>
+<pre class="brush: jscript; title: ; notranslate" title="">
+navigator.geolocation.getCurrentPosition(function(pos) {
+	// 取得成功時の処理
+});
+</pre>
+<p>結果は pos.coords に、以下のように格納されています。</p>
+<pre>
+　　　　pos.coords.latitude  : 緯度
+　　　　pos.coords.longitude : 経度
+　　　　pos.coords.accuracy  : 誤差（単位はメートル）
+</pre>
+<p>&nbsp;<br />
+で、取得した緯度経度の値をそのまま使って、Googleマップ上にピンを立ててやればOKです。</p>
+<p>また、Googleマップには線を引いたり円を描いたりする機能もありますので、誤差の範囲を <a href="https://developers.google.com/maps/documentation/javascript/overlays?hl=ja#BasicShapes" target="_blank">google.maps.Circle()</a> を使ってマップ上に円で表示してみています。(この円ひとつでずいぶんそれっぽくなりました)</p>
+<p>&nbsp;<br />
+<strong>■ 対象ブラウザ</strong></p>
+<p>気になる対象ブラウザなんですが、iPohne や Android のブラウザはもちろん、PC の Chrome, FireFox, Safari などでも問題なく取得可能です。IE は、バージョン9以降であれば取得できます。</p>
+<p>使用ブラウザが geolocation API に対応しているかどうかは navigator.geolocation を参照すれば判定できますので、以下のようにして</p>
+<pre class="brush: jscript; title: ; notranslate" title="">
+if (! navigator.geolocation) {
+	// 非対応ブラウザ向けの処理
+}
+</pre>
+<p>&nbsp;<br />
+コードの冒頭で処理を分けてやるとよさそうです。</p>
+<p>&nbsp;<br />
+<strong>■ ソースコード</strong></p>
+<p>全体のコードはこんな感じになります。(※要jQuery)</p>
+<pre class="brush: jscript; title: ; notranslate" title="">
+jQuery(function($) {
+
+	// gps に対応しているかチェック
+	if (! navigator.geolocation) {
+		$('#gmap').text('GPSに対応したブラウザでお試しください');
+		return false;
+	}
+
+	$('#gmap').text('GPSデータを取得します...');
+
+	// gps取得開始
+	navigator.geolocation.getCurrentPosition(function(pos) {
+		// gps 取得成功
+		// google map 初期化
+		var gmap = new google.maps.Map($('#gmap').get(0), {
+			center: new google.maps.LatLng(35, 135),
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			zoom: 17
+		});
+
+		// 現在位置にピンをたてる
+		var currentPos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+		var currentMarker = new google.maps.Marker({
+			position: currentPos
+		});
+		currentMarker.setMap(gmap);
+
+		// 誤差を円で描く
+		new google.maps.Circle({
+			map: gmap,
+			center: currentPos,
+			radius: pos.coords.accuracy, // 単位はメートル
+			strokeColor: '#0088ff',
+			strokeOpacity: 0.8,
+			strokeWeight: 1,
+			fillColor: '#0088ff',
+			fillOpacity: 0.2
+		});
+
+		// 現在地にスクロールさせる
+		gmap.panTo(currentPos);
+
+	}, function() {
+		// gps 取得失敗
+		$('#gmap').text('GPSデータを取得できませんでした');
+		return false;
+	});
+});
+</pre>
+<p>&nbsp;<br />
+<strong>■ 参考</strong><br />
+Geolocation.getCurrentPosition() &#8211; Web API インターフェイス | MDN<br />
+<a href="https://developer.mozilla.org/ja/docs/Web/API/Geolocation.getCurrentPosition" target="_blank">https://developer.mozilla.org/ja/docs/Web/API/Geolocation.getCurrentPosition</a></p>
+</div><!-- /entryMain -->
+
+<div class="articleFoot">
+<p>(投稿者：matsuo)</p>
+<ul class="shareBtns inblockList">
+<li><div class="fb-like" data-href="http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div></li>
+<li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html" data-text="Googleマップに、GPSを使って現在位置(と誤差を表す円)を表示するサンプル | TipsNote" data-lang="ja">ツイート</a></li>
+<li><a href="http://b.hatena.ne.jp/entry/http://www.tam-tam.co.jp/tipsnote/javascript/post4139.html" class="hatena-bookmark-button" data-hatena-bookmark-title="Googleマップに、GPSを使って現在位置(と誤差を表す円)を表示するサンプル | TipsNote" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a></li>
+<li><div class="g-plusone"></div></li>
+</ul>
+
+<p id="commentNumTxt">Comments: コメントはまだありません</p>
+</div><!-- /articleFoot -->
+</div><!-- /article -->
+
+
+<div id="commentBox">
+
+
+						<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">コメントを残す <small><a rel="nofollow" id="cancel-comment-reply-link" href="/tipsnote/javascript/post4139.html#respond" style="display:none;">コメントをキャンセル</a></small></h3>
+									<form action="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																										<p class="comment-form-author"><label for="author">お名前</label><span class="required">(必須)</span></p><p><input id="author" name="author" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-email"><label for="email">メールアドレス<span class="required">(必須)</span></p><p><input id="email" name="email" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-url"><label for="url">ホームページアドレス</label></p><p><input id="url" name="url" type="text" value="" size="30" /></p>
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/plugins/siteguard/really-simple-captcha/tmp/2099140789.png" alt="CAPTCHA"></p><p><label for="siteguard_captcha">上に表示された文字を入力してください。</label><br /><input type="text" name="siteguard_captcha" id="siteguard_captcha" class="input" value="" size="10" aria-required="true" /><input type="hidden" name="siteguard_captcha_prefix" id="siteguard_captcha_prefix" value="2099140789" /></p>												<p class="comment-form-comment"><label for="comment">コメント</label></p><p><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						
+						<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="コメントを送信" /> <input type='hidden' name='comment_post_ID' value='4139' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a327cf97f2" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="25"/></p>					</form>
+							</div><!-- #respond -->
+			
+</div><!-- /commentBox -->
+</div><!-- /leftCont -->
+
+<div id="rightCont" class="blRight">
+<!--検索-->
+<script>
+  (function() {
+    var cx = '000389095243076749425:ufwu_k66cnc';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+<!--/検索-->
+
+<div class="nocontent">
+<div class="sideBox">
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/hg_group1.gif" alt="Group 1" width="260" height="16" /></p>
+<h3><a href="http://www.tam-tam.co.jp/tipsnote/category/html_css"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/ssttl_html_css.gif" alt="HTML・CSS" /></a><span class="postCountIco">51</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post6610.html">【Googleサイト】HTMLを挿入する/編集する、いくつかの注意点</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post6588.html">もう一度、「clearfix」について考えてみた。</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post6375.html">【作業効率化】Photoshopがいつのまにか鬼便利になっていた話</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post6482.html">6/23に「Like Box」廃止→「Page Plugin」へ</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post6458.html">cssで計算ができる、calc()が便利そう</a></li>
+</ul>
+</div><!-- /sideBox -->
+<div class="sideBox">
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/hg_group2.gif" alt="Group 2" width="260" height="16" /></p>
+<h3><a href="http://www.tam-tam.co.jp/tipsnote/category/javascript"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/ssttl_javascript.gif" alt="JavaScript" /></a><span class="postCountIco">52</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6829.html">イベントトラッキングでどこまでスクロールしたかを計測する方法</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6746.html">Javascriptのアニメーション処理を高速化するプラグインVelocity.jsの使い方</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6725.html">【jQuery】bxSliderでPagerを複数表示したい</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6708.html">【jQuery】多機能でカスタマイズしやすいモーダルウィンドウ、Colorboxが最高に使いやすい</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6569.html">NaNの判定</a></li>
+</ul>
+</div><!-- /sideBox -->
+<div class="sideBox">
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/hg_group3.gif" alt="Group 3" width="260" height="16" /></p>
+<h3><a href="http://www.tam-tam.co.jp/tipsnote/category/actionscript"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/ssttl_actionscript.gif" alt="ActionScript" /></a><span class="postCountIco">4</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/actionscript/post81.html">AlivePDFでPDFにフォントを埋め込んでみる</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/actionscript/post79.html">リンクを別窓で開いた時の検証</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/actionscript/post74.html">ZipファイルをFlash上で解凍する</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/actionscript/post39.html">FlashからHTMLを生成する</a></li>
+</ul>
+</div><!-- /sideBox -->
+<div class="sideBox">
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/hg_group4.gif" alt="Group 4" width="260" height="16" /></p>
+<h3><a href="http://www.tam-tam.co.jp/tipsnote/category/cms"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/ssttl_cms.gif" alt="CMS" /></a><span class="postCountIco">24</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/cms/post6651.html">【WordPress】記事が属する子タームを親タームのID順で並び替えて表示させる</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/cms/post6144.html">WordPressでプラグインから出力されるjQueryライブラリやCSSを整理する</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/cms/post6088.html">【WordPress】内部施策を積極的に行ってSEOの効果を高めたい</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/cms/post5925.html">【WordPress】ショートコードを使って記事を書く</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/cms/post5511.html">【WordPress】カスタム投稿タイプの記事をカスタムフィールドの値順で並び替える</a></li>
+</ul>
+</div><!-- /sideBox -->
+<div class="sideBox">
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/hg_group5.gif" alt="Group 5" width="260" height="16" /></p>
+<h3><a href="http://www.tam-tam.co.jp/tipsnote/category/mobile"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/ssttl_mobile.gif" alt="Mobile" /></a><span class="postCountIco">10</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post6447.html">動きのあるハンバーガーボタンを、さっと実装できる「Transformicons」</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post6335.html">【レスポンシブ（リキッド）HTMLメール】outlookで幅を固定する対処法</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post5420.html">フレックスボックスでカラムレイアウトを実装する</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post5371.html">レスポンシブHTMLメールを作成する際の覚書</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/html_css/post4559.html">【スマホサイト】display:table-cellにmarginを指定したい</a></li>
+</ul>
+</div><!-- /sideBox -->
+<div class="sideBox">
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/hg_group6.gif" alt="Group 6" width="260" height="16" /></p>
+<h3><a href="http://www.tam-tam.co.jp/tipsnote/category/seo"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/ssttl_seo.gif" alt="SEO" /></a><span class="postCountIco">19</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6829.html">イベントトラッキングでどこまでスクロールしたかを計測する方法</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/seo/post6408.html">クロスドメインを複数プロパティで管理する方法<br />（ユニバーサルアナリティクス版）</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/seo/post5933.html">別ウィンドウで遷移した時の「滞在時間」について</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/seo/post5447.html">Googleタグマネージャでのクロスドメイントラッキングの設定</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/seo/post5241.html">【SEO】PageSpeed Insightsなど SEOお役立ち情報</a></li>
+</ul>
+</div><!-- /sideBox -->
+<div class="sideBox">
+<p><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/hg_group7.gif" alt="Group 7" width="260" height="16" /></p>
+<h3><a href="http://www.tam-tam.co.jp/tipsnote/category/program"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/side/ssttl_program.gif" alt="Program" /></a><span class="postCountIco">16</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/program/post5858.html">【Server】mysqlを5.1 から　5.5にアップデートをする方法</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/program/post6306.html">EditorConfig でチームみんなのエディタの設定を揃える</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/program/post5844.html">【vagrant】win7 + vbox4.3.12  ssh がクローズするのを解決する方法</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/program/post5735.html">いいねボタンが表示されないときに試してみること</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/program/post5624.html">非エンジニアのWindows小技</a></li>
+</ul>
+</div><!-- /sideBox -->
+
+<div class="sideBox" style="width:260px;height:350px;">
+<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/tips_note" data-widget-id="306290811467866112">@tips_note からのツイート</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div><!-- /sideBox -->
+
+
+<div class="sideBox">
+<div class="fb-page" data-href="https://www.facebook.com/TipsNote" data-width="260" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/TipsNote"><a href="https://www.facebook.com/TipsNote">Tips Note｜TAM(タム)テクニカルチーム</a></blockquote></div></div>
+</div><!-- /sideBox -->
+
+<div class="sideBox">
+<h3><span class="sideTtlInner">最新記事</span></h3>
+<ul>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6829.html">イベントトラッキングでどこまでスクロールしたかを計測する方法</a>(JavaScript)</li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6746.html">Javascriptのアニメーション処理を高速化するプラグインVelocity.jsの使い方</a>(JavaScript)</li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6725.html">【jQuery】bxSliderでPagerを複数表示したい</a>(JavaScript)</li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/javascript/post6708.html">【jQuery】多機能でカスタマイズしやすいモーダルウィンドウ、Colorboxが最高に使いやすい</a>(JavaScript)</li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/cms/post6651.html">【WordPress】記事が属する子タームを親タームのID順で並び替えて表示させる</a>(CMS)</li>
+</ul>
+</div><!-- /sideBox -->
+
+<div id="keywordBox" class="sideBox">
+<h3><span class="sideTtlInner">注目キーワード</span></h3>
+<ul class="inblockList">
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/ab%e3%83%86%e3%82%b9%e3%83%88">ABテスト</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/adwords">AdWords</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/ajax">ajax</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/android">Android</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/api">API</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/as3">as3</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/bxlider">bxlider</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/chrome%e6%8b%a1%e5%bc%b5%e6%a9%9f%e8%83%bd">Chrome拡張機能</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/compass">Compass</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/cookie">cookie</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/css">CSS</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/css3">CSS3</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/d3-js">D3.js</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/data-api">Data API</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/facebook">Facebook</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/flash">Flash</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/git">Git</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/googleanalytic">GoogleAnalytic</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/googleanalytics">GoogleAnalytics</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/googlemap">GoogleMap</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/google%e3%82%bf%e3%82%b0%e3%83%9e%e3%83%8d%e3%83%bc%e3%82%b8%e3%83%a3">Googleタグマネージャ</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/html">html</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/html5">HTML5</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/iphone">iPhone</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/jade">jade</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/javascript-2">JavaScript</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/jquery">jQuery</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/json">json</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/less">LESS</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/movabletype">Movable Type</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/node-js">Node.js</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/oocss">OOCSS</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/pdf">PDF</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/php">PHP</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/rsync">rsync</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/sass">Sass</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/scss">SCSS</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/seo">SEO</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/sns">SNS</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/svg">SVG</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/twitter">Twitter</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/underscore-js">Underscore.js</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/usort">usort</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/velocity-js">Velocity.js</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/webrelease">WebRelease</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/wordpress">WordPress</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/xml">XML</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/youtube">YouTube</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e8%a7%a3%e6%9e%90">アクセス解析</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%a2%e3%83%8b%e3%83%a1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3">アニメーション</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%a2%e3%83%ab%e3%82%b4%e3%83%aa%e3%82%ba%e3%83%a0">アルゴリズム</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%a4%e3%83%99%e3%83%b3%e3%83%88%e3%83%88%e3%83%a9%e3%83%83%e3%82%ad%e3%83%b3%e3%82%b0">イベントトラッキング</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%a6%e3%82%a7%e3%83%96%e3%83%86%e3%82%b9%e3%83%88">ウェブテスト</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%aa%e3%83%96%e3%82%b8%e3%82%a7%e3%82%af%e3%83%88%e6%8c%87%e5%90%91css">オブジェクト指向CSS</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%ab%e3%82%b9%e3%82%bf%e3%83%a0%e3%83%95%e3%82%a3%e3%83%bc%e3%83%ab%e3%83%89">カスタムフィールド</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%af%e3%83%ad%e3%82%b9%e3%83%89%e3%83%a1%e3%82%a4%e3%83%b3">クロスドメイン</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%b7%e3%83%a7%e3%83%bc%e3%83%88%e3%82%b3%e3%83%bc%e3%83%89">ショートコード</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%b9%e3%83%8b%e3%83%9a%e3%83%83%e3%83%88">スニペット</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%b9%e3%83%9e%e3%83%bc%e3%83%88%e3%83%95%e3%82%a9%e3%83%b3">スマートフォン</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%bb%e3%82%ad%e3%83%a5%e3%83%aa%e3%83%86%e3%82%a3">セキュリティ</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%82%bd%e3%83%bc%e3%83%88">ソート</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%83%95%e3%82%a3%e3%83%bc%e3%83%89">フィード</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%83%95%e3%82%a9%e3%83%bc%e3%83%a0">フォーム</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%83%97%e3%83%a9%e3%82%b0%e3%82%a4%e3%83%b3">プラグイン</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%83%a6%e3%83%8b%e3%83%90%e3%83%bc%e3%82%b5%e3%83%ab%e3%82%a2%e3%83%8a%e3%83%aa%e3%83%86%e3%82%a3%e3%82%af%e3%82%b9">ユニバーサルアナリティクス</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%83%aa%e3%83%80%e3%82%a4%e3%83%ac%e3%82%af%e3%83%88">リダイレクト</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e3%83%ac%e3%82%b9%e3%83%9d%e3%83%b3%e3%82%b7%e3%83%96">レスポンシブ</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e6%ad%a3%e8%a6%8f%e5%8c%96">正規化</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e8%a4%87%e6%95%b0%e3%83%97%e3%83%ad%e3%83%91%e3%83%86%e3%82%a3">複数プロパティ</a></li>
+<li><a href="http://www.tam-tam.co.jp/tipsnote/tag/%e9%ab%98%e9%80%9f%e5%8c%96">高速化</a></li>
+</ul>
+</div><!-- /sideBox -->
+
+<!-- /sideBox -->
+
+</div>
+<!--/.nocontent-->
+
+</div><!-- /rightCont -->
+</div><!-- /clf -->
+
+<div id="footer" class="clfix">
+<p id="pagetopBtn"><a href="#wrap"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/common/footer_btn.gif" alt="このページのトップへ" width="21" height="21" /></a></p>
+<p class="blLeft"><img src="http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/themes/tipsnote/images/common/footer_logo.gif" alt="&copy;2013 TAM Inc." width="97" height="16" /></p>
+
+</div><!-- /footer -->
+</div><!-- /wrap -->
+
+<script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+<script src="https://apis.google.com/js/platform.js" async defer>
+  {lang: 'ja'}
+</script>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type='text/javascript' src='http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/plugins/akismet/_inc/form.js?ver=3.1.3'></script>
+<script type='text/javascript' src='http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9b'></script>
+<script type='text/javascript' src='http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJScript.js?ver=3.0.9b'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = 'ソースを表示';
+	SyntaxHighlighter.config.strings.help = 'SyntaxHighlighterについて';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = '指定のブラシが見つかりませんでした: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'HTMLスクリプトのオプションのためにブラシが構成されませんでした: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://www.tam-tam.co.jp/tipsnote/wpdata/wp-includes/js/comment-reply.min.js?ver=4.2.5'></script>
+</body>
+</html>
