@@ -1,0 +1,71 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>Google Maps V3</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        google.maps.event.addDomListener(window, 'load', function()
+        {
+            var lng = 139.81925904750824;
+            var lat = 35.6832894073129;
+
+            var mapOptions = {
+                zoom: 11,
+                center: new google.maps.LatLng(lat, lng),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                scaleControl: true
+            };
+            var mapObj = new google.maps.Map(document.getElementById('gmap'), mapOptions);
+
+
+            // 駅情報
+            var stations = [
+              ['本八幡', 35.72085546127138, 139.92747277021408],
+              ['篠崎', 35.70598101124423, 139.9037191271782],
+              ['瑞江', 35.69328653302551, 139.89769488573074],
+              ['一之江', 35.686071474623006, 139.88301783800125],
+              ['船堀', 35.683858028801154, 139.86432820558548],
+              ['東大島', 35.690280338003326, 139.84594970941544],
+              ['大島', 35.689888217255735, 139.83570367097855],
+              ['西大島', 35.68941766981426, 139.82628375291824],
+              ['住吉', 35.68906911436427, 139.81566220521927],
+              ['菊川', 35.688441710716226, 139.80600625276566],
+              ['森下', 35.688075722975974, 139.7982171177864],
+              ['浜町', 35.688493994542036, 139.78819638490677],
+              ['馬喰横山', 35.69213635005163, 139.78278905153275],
+              ['岩本町', 35.69560427559648, 139.77592259645462],
+              ['小川町', 35.69506405590478, 139.76665288209915],
+              ['神保町', 35.695917949867216, 139.7581771016121],
+              ['九段下', 35.695551996431405, 139.75209385156631],
+              ['市ヶ谷', 35.69160482049794, 139.73769575357437],
+              ['曙橋', 35.69241518381087, 139.72290068864822],
+              ['新宿三丁目', 35.690637601894906, 139.70628172159195],
+              ['新宿', 35.688964547432306, 139.69959765672684]
+            ];
+
+
+            // マーカーを作成
+            for (var i = 0; i < stations.length; i++) {
+                var station = stations[i];
+                var latlng = new google.maps.LatLng( station[1], station[2] );
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: mapObj,
+                    title: station[0]
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="gmap" style="width: 99%; height: 370px; border: 1px solid Gray;">
+    </div>
+</body>
+</html>
+
+
+
+
