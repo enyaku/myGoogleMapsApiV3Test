@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>複数地点の緯度経度情報を取得するサンプル</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        height: 100%;
+      }
+      #header {
+        width: 100%;
+        height: 2%;
+      }
+      #main {
+        height: 98%;
+      }
+      #panel {
+        float: left;
+        margin-left: 10px;
+        width: 400px;
+      }
+      #map_canvas {
+        margin-left: 410px;
+        height: 100%;
+      }
+      ul {
+        margin-top: 10px;
+        margin-left: 20px;
+      }
+    </style>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script>
+      var map;
+      var markerList;
+  
+      function initialize() {
+        var latlng = new google.maps.LatLng(39, 138);
+        markerList = new google.maps.MVCArray();
+        var opts = {
+          zoom: 6,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          center: latlng,
+          disableDoubleClickZoom: true
+        };
+  
+        map = new google.maps.Map(document.getElementById("map_canvas"), opts);
+        google.maps.event.addListener(map, 'click', mapClicked);
+      }
+  
+      function mapClicked(event) {
+        var marker = new google.maps.Marker({
+          position: event.latLng,
+          map: map,
+          draggable: true
+        });
+      
+        google.maps.event.addListener(marker, "dragend", function(mouseEvent) {
+          writeMarkersPosition();
+        });
+  
+        google.maps.event.addListener(marker, "rightclick", function(mouseEvent) {
+          var clickedMarker = this;
+  
+          markerList.forEach(function(marker, index) {
+            if(marker == clickedMarker) {
+              markerList.removeAt(index);
+            }
+          });
+          clickedMarker.setMap(null);
+          writeMarkersPosition();
+        });
+      
+        markerList.push(marker);
+        writeMarkersPosition();
+      }
+  
+      function removeMarkers() {
+        markerList.forEach(function(marker, index) {
+          marker.setMap(null);
+        });
+        markerList.clear();
+        writeMarkersPosition();
+      }
+  
+      function writeMarkersPosition() {
+        document.getElementById("latlng_area").innerHTML = "";      
+        markerList.forEach(function(marker, index) {
+          var lat = marker.getPosition().lat();
+          var lng = marker.getPosition().lng();
+          document.getElementById("latlng_area").innerHTML += lat + ", " + lng + "\n";
+        });
+      }
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="header"></div>
+    <div id="main">
+      <div id="panel">
+	<div>
+	  <textarea id="latlng_area" cols="40" rows="20" readonly
+		    placeholder="マーカーを配置すると緯度経度が取得できる。"></textarea>
+	</div>
+	<div>
+	  <input type="button" onclick="removeMarkers();" value="マーカーを全て削除する">
+	  <ul>
+	    <li>右クリックで対象のマーカーを削除できる</li>
+	    <li>マーカーをドラックして緯度経度を変更できる</li>
+	  </ul>
+	</div>
+      </div>
+      <div id="map_canvas"></div>
+    </div>
+  </body>
+</html>
