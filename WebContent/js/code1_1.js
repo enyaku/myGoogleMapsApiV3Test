@@ -1,9 +1,10 @@
 
 function initialize() {
   if (GBrowserIsCompatible()) {
-    var map = new GMap2(document.getElementById("map_canvas"));
-    map.setCenter(new GLatLng(41.7724,140.72628), 12);
+	var map = new GMap2(document.getElementById("map"));
 
-    var directions = new GDirections(map, document.getElementById('route'));
+    map.setCenter(new GLatLng(35.6069973,139.714774), 13);
+
+    
   }
 }

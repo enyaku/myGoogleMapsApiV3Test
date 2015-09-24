@@ -2,9 +2,20 @@
 var map;
 var directions;
 
+
+function initialize2() {
+  if (GBrowserIsCompatible()) {
+	var map = new GMap2(document.getElementById("map"));
+
+    map.setCenter(new GLatLng(35.6069973,139.714774), 13);
+
+    
+  }
+}
+
 function initialize() {
   if (GBrowserIsCompatible()) {
-    map = new GMap2(document.getElementById("map_canvas"));
+    map = new GMap2(document.getElementById("map"));
     map.setCenter(new GLatLng(35.6069973,139.714774), 13);
 
     directions = new GDirections(map, document.getElementById("route"));
