@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Route : EXAMPLE</title>
+<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" 
+rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+    var wps = [
+        ['経路1：出発点',35.0,136.5,1,'motorcycling',27,2,
+        '<div id="wp_desc" style="font-size:12px; width:220px">
+        <div id="wp_name">経路1：出発点</div><div id="wp_address">三重県のどっか</div>　</div>'],
+        ['経路1：Stay Point',35.0,136.55,2,
+        'grocerystore',18,4,'<div id="wp_desc" style="font-size:12px; width:220px">
+        <div id="wp_name">経路1：Stay Point</div><div id="wp_address">三重県のはず</div>　</div>']
+    ];
+    var map;
+    var centerLatLng = new google.maps.LatLng(35.0, 136.5);
+    var ctaLayer = new google.maps.KmlLayer('http://xxxx.yyyy.zzzz.jp/map_data.kml');
+    var cmLayer  = new google.maps.KmlLayer(
+           'http://hippo.matsup.mydns.jp/motorcycle/centerMark.kml', {preserveViewport:true});
+    var markersArray = [];
+    var InfoWindowX = new google.maps.InfoWindow;
+    var Elevation_flag = false;
+    var trackMarkersArray = [];
+
+    function initialize() {
+        var myOptions = {
+            zoom: 11,
+            center: centerLatLng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scaleControl: true,
+            scaleControlOptions: { position: google.maps.ControlPosition.BOTTOM_CENTER }
+        }
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        ctaLayer.setMap(map);
+
+        setWPMarkers(map, wps);
+        cmLayer.setMap(map);
+        google.maps.event.addListener(map, 'click', function(mouseEvent) {
+            setTrackMarkers(map, mouseEvent.latLng);
+        });
+    }
+// --------------------------------------------------
+    function clearCenterMark() {
+        cmLayer.setMap(null);
+    }
+    function showCenterMark() {
+        cmLayer.setMap(map);
+    }
+// --------------------------------------------------
+    function setWPMarkers(map, locations) {
+        for (var i = 0; i < locations.length; i++) {
+            var points = locations[i];
+            var icon_url = 'http://maps.gstatic.com/intl/ja_jp/mapfiles/ms/micons/'
+                            +points[4]+'.png';
+            var icon_shadow_url = 
+                'http://maps.gstatic.com/intl/ja_jp/mapfiles/ms/micons/'+points[4]+'.shadow.png';
+            if (points[4].match(/pushpin/i)) {
+                icon_shadow_url = 
+                    'http://maps.gstatic.com/intl/ja_jp/mapfiles/ms/micons/pushpin_shadow.png';
+            }
+            var image = new google.maps.MarkerImage(icon_url, new google.maps.Size(32,32),
+                        new google.maps.Point(0,0),  new google.maps.Point(points[5],(32-points[6])));
+            var shadow = new google.maps.MarkerImage(icon_shadow_url,  new google.maps.Size(59,32),
+                         new google.maps.Point(0,0),  new google.maps.Point(points[5],(32-points[6])));
+            var shape = { coord: [16, 0, 0, 32, 32, 32], type: 'poly' };
+            var myLatLng = new google.maps.LatLng(points[1], points[2]);
+            var marker = new google.maps.Marker({
+                position: myLatLng,  map: map,  shadow: shadow,
+                icon: image,  shape: shape,  title: points[0],  zIndex: points[3]
+            });
+            markersArray.push(marker);
+            attachMessage(marker, points[7]);
+        }
+    }
+    function clearIcons() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(null);
+            }
+        }
+    }
+    function showIcons() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(map);
+            }
+        }
+    }
+// --------------------------------------------------
+    function attachMessage(marker, message) {
+        google.maps.event.addListener(marker, 'click', function() {
+            InfoWindowX.setContent(message);
+            if (Elevation_flag) {
+                getElevation(marker.getPosition(),InfoWindowX);
+            }
+            InfoWindowX.open(map,marker);
+         });
+    }
+    function clearInfoWindow() {
+        InfoWindowX.close();
+    }
+// --------------------------------------------------
+    function getElevation(latlng, infowindow) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+            latLng: latlng
+        }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0].geometry) {
+                    var message = infowindow.getContent();
+                    var address = results[0].formatted_address.replace(/^日本, /, '');
+                    var infoMessage = message+"<div id=\"geocoder\" style=\"font-size:12px;\">
+                            <b>Google Info: </b><br>"+address +"</div>";
+                    infowindow.setContent(infoMessage);
+                }
+            }
+            else { alert("Geocoder Service ERROR !!"); }
+        });
+
+        var locations = [latlng];
+        var elevation = new google.maps.ElevationService();
+        elevation.getElevationForLocations({
+            locations: locations
+        }, function(results, status) {
+            if (status == google.maps.ElevationStatus.OK) {
+                if (results[0].elevation) {
+                    var message = infowindow.getContent();
+                    var altitude = results[0].elevation;
+                    var infoMessage = message
+                          +"<div id=\"altitude\" style=\"font-size:12px;\"><b>Google Info: </b>";
+                    infoMessage = infoMessage 
+                            +"Altitude: " +altitude +" [m]<br>" + latlng + "<br>　</div>";
+                    infowindow.setContent(infoMessage);
+                }
+            }
+            else { alert("Elevation Service ERROR !!"); }
+        });
+    }
+
+    function clearElevation() {
+        Elevation_flag = false;
+    }
+    function showElevation() {
+        Elevation_flag = true;
+    }
+// --------------------------------------------------
+    function setTrackMarkers(map, myLatLng) {
+        clearTrackIcons();
+        var icon_url = 'http://maps.gstatic.com/intl/ja_jp/mapfiles/ms/micons/ylw-pushpin.png';
+        var icon_shadow_url = 'http://maps.gstatic.com/intl/ja_jp/mapfiles/ms/micons/pushpin_shadow.png';
+        var image = new google.maps.MarkerImage(icon_url, new google.maps.Size(32,32),
+                    new google.maps.Point(0,0),  new google.maps.Point(10,31));
+        var shadow = new google.maps.MarkerImage(icon_shadow_url,  new google.maps.Size(59,32),
+                     new google.maps.Point(0,0),  new google.maps.Point(10,31));
+        var trackmarker = new google.maps.Marker({
+            position: myLatLng,  map: map,  shadow: shadow,
+            icon: image,  title: 'Track Info',  zIndex: 999
+        });
+        trackMarkersArray.push(trackmarker);
+        setTrackInfoWindow(trackmarker);
+    }
+    function setTrackInfoWindow(trackmarker) {
+        var trackinfowindow = new google.maps.InfoWindow({content: ''});
+        getElevation(trackmarker.getPosition(),trackinfowindow);
+        trackinfowindow.open(map,trackmarker);
+    }
+    function clearTrackIcons() {
+        if (trackMarkersArray) {
+            for (i in trackMarkersArray) {
+                trackMarkersArray[i].setMap(null);
+            }
+        }
+    }
+    function showTrackIcons() {
+        if (trackMarkersArray) {
+            for (i in trackMarkersArray) {
+                trackMarkersArray[i].setMap(map);
+            }
+        }
+    }
+// --------------------------------------------------
+</script>
+</head>
+
+<body bgcolor="#D0D0D0" onload="initialize()">
+<div>
+<input style="color:blue" onclick="clearCenterMark();" type=button value="Center消去">　
+<input style="color:red" onclick="showCenterMark();" type=button value="Center表示">　
+<input style="color:blue" onclick="clearIcons();" type=button value="Icon消去">　
+<input style="color:red" onclick="showIcons();" type=button value="Icon表示">　
+<input style="color:black" onclick="clearInfoWindow();" type=button value="吹出し消去">　
+<input style="color:magenta" onclick="showElevation();" type=button value="吹出+Addr/Alt">
+<input style="color:black" onclick="clearElevation();" type=button value="NO Addr/Alt">　
+<input style="color:black" onclick="clearTrackIcons();" type=button value="Pts Icon消去">
+</div>
+<div id="map_canvas" style="width: 100%; height: 95%; position:absolute; top:35px; left:0px"></div>
+</body>
+</html>

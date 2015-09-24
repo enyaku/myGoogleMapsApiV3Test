@@ -1,4 +1,5 @@
 
+
 var map;
 var directions;
 
@@ -11,17 +12,54 @@ iconBase.iconAnchor = new GPoint(16, 32);
 iconBase.infoWindowAnchor = new GPoint(16, 8);
 
 
-
 function initialize() {
-  if (GBrowserIsCompatible()) {
-    map = new GMap2(document.getElementById("map_canvas"));
-//35.670756, 139.823215
-    map.setCenter(new GLatLng(35.670756, 139.823215), 13);
 
-    directions = new GDirections(map, null);
-    GEvent.addListener(directions, "load", onGDirectionsLoad);
-  }
+	
+	
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(successCallback,errorCallback);
+		
+	} else {
+	    document.getElementById("map_canvas").innerHTML =  "Geolocationが利用できません";
+	}
+	
+	
+
 }
+
+
+function successCallback(position) {
+    //成功したときの処理
+    //result = '緯度:' + position.coords.latitude + '<br />';
+    //result += '経度:' + position.coords.longitude + '<br />';
+    //document.getElementById("map_canvas").innerHTML = result;
+    
+	
+
+	  
+    if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map_canvas"));
+
+    	//var gmap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    	
+        map.setCenter(new GLatLng(position.coords.latitude,position.coords.longitude), 12);
+        
+
+	    directions = new GDirections(map, null);
+	    GEvent.addListener(directions, "load", onGDirectionsLoad);
+	    
+
+        
+      }
+    
+  
+}
+function errorCallback(error) {
+   //失敗のときの処理
+   document.getElementById("map_canvas").innerHTML = 'Geolocationが利用できません';
+}
+
+
 
 function dispRoute() {
   var from = document.getElementById("from").value;
@@ -100,4 +138,5 @@ function clearRoute() {
 	  directions.clear();
 	  map.clearOverlays();
 	}
+
 

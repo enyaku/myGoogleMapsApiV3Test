@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+      
+    <title>デバイスプロパティーの使用例</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova-1.7.0.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Cordova の読み込み完了まで待機
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    var watchID = null;
+
+    // Cordova 準備完了
+    //
+    function onDeviceReady() {
+        // 3秒ごとに更新
+        var options = { frequency: 30000 };
+        watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+    }
+
+    // onSuccess Geolocation
+    //
+    function onSuccess(position) {
+        var element = document.getElementById('geolocation');
+        element.innerHTML = '緯度: ' + position.coords.latitude     + '<br />' +
+                            '経度: ' + position.coords.longitude    + '<br />' +
+                            '<hr />' + element.innerHTML;
+    }
+
+    // 先に開始された監視を停止する
+    //
+    function clearWatch() {
+        if (watchID != null) {
+            navigator.geolocation.clearWatch(watchID);
+            watchID = null;
+        }
+    }
+
+    // エラー時のコールバック関数は PositionError オブジェクトを受けとる
+    //
+    function onError(error) {
+        alert('コード: '        + error.code    + '\n' +
+              'メッセージ: '    + error.message + '\n');
+    }
+
+    </script>
+  </head>
+  <body>
+    <p id="geolocation">位置情報を監視中...</p>
+    <button onclick="clearWatch();">監視の停止</button>
+  </body>
+</html>

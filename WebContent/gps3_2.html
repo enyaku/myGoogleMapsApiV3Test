@@ -1,0 +1,60 @@
+
+<!--    -->
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<!--Map Google API-->
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true" charset="utf-8"></script>
+
+<script type="text/javascript">
+// watchPosion 
+window.onload = function(){
+	navigator.geolocation.watchPosition(update);
+}
+ 
+// 
+function update(position){
+	var lat = position.coords.latitude;
+	var lng = position.coords.longitude;
+	var alt = position.coords.altitude;
+	var acc = position.coords.accuracy;
+	var alc = position.coords.altitudeAccuracy;
+	var hed = position.coords.heading;
+	var spd = position.coords.speed;
+ 
+	// HTMLへの書き出し
+	//document.getElementById( 'result' ).innerHTML = '<dl><dt>緯度</dt><dd>' + lat + '</dd><dt>経度</dt><dd>' + lng + '</dd><dt>高度</dt><dd>' + alt + '</dd><dt>緯度、経度の精度</dt><dd>' + accLatlng + '</dd><dt>高度の精度</dt><dd>' + accAlt + '</dd><dt>方角</dt><dd>' + heading + '</dd><dt>速度</dt><dd>' + speed + '</dd></dl>' ;
+
+	var htmlTxt = "緯度 = "+lat+" , "+"経度 = "+lng+" , "+"高度 = "+alt+" , ";
+		htmlTxt += "緯度、経度の精度 = "+acc+" , "+"高度の精度 = "+alc+" , "+"方角 = "+hed+" , "+"速度 = "+spd;
+		htmlTxt += "<br>"+(new Date());
+ 
+	document.getElementById("pos").innerHTML = htmlTxt;
+ 
+    var myLatlng = new google.maps.LatLng( lat , lng ); //google map 
+    var myCenter = myLatlng; //map
+    var myOptions = {
+      zoom: 15,
+      center: myCenter, 
+      mapTypeId: google.maps.MapTypeId.ROADMAP // 
+    };	
+ 
+	// HTMLへの書き出し
+	var gmap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	//
+	var marker = new google.maps.Marker({ 
+	  position: myLatlng, 
+	  map: gmap
+	}); 
+ 
+ 
+  }
+ 
+</script>
+ 
+<body>
+<h1>位置情報を取得する</h1>
+ 
+<div id="pos">...loading</div>
+ 
+<div id="map_canvas" style="width:95%; height:500px ; border:solid 5px #ddd;"></div>
+</body>

@@ -1,0 +1,108 @@
+
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps API V3 with Gears Geolocation API</title>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="gears_init.js"></script>
+<script type="text/javascript">
+
+/*
+ * GeoPo Encode in JavaScript
+ * @author : Shintaro Inagaki
+ * @param location (Object)
+ * @return geopo (String)
+ */
+function geopoEncode(location){
+    // 64characters (number + big and small letter + hyphen + underscore)
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+
+    var geopo = new String();
+    var lat = parseFloat(location.lat); // Parse as float
+    var lng = parseFloat(location.lng); // Parse as float
+    var scale = parseInt(location.scale); // Parse as int
+    
+    // Change a degree measure to a decimal number
+    lat = (lat + 90) / 180 * Math.pow(8, 10);
+    lng = (lng + 180) / 360 * Math.pow(8, 10);
+    
+    // Compute a GeoPo code from head and concatenate
+    for(var i = 0; i < scale; i++) {
+        geopo = geopo + chars.substr(Math.floor(lat / Math.pow(8, 9 - i) % 8) + Math.floor(lng / Math.pow(8, 9 - i) % 8) * 8, 1);
+    }
+    return geopo;
+}
+
+var geo = google.gears.factory.create('beta.geolocation');
+
+function displayMap(position) {
+    var geocoder = new google.maps.Geocoder();
+    var latLng = new google.maps.LatLng(position.latitude,position.longitude);
+    var options = {
+        zoom: 15,
+        center: latLng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("map_canvas"), options);
+
+    var geocodeAddress;
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker = new google.maps.Marker({
+        position: latLng, 
+        map: map,
+        title:"You are here."
+    });
+
+    // geopo
+    var location = new Object();
+    location.lat = position.latitude;
+    location.lng = position.longitude;
+    location.scale = 7;
+
+    var geopo = geopoEncode(location);
+
+    if (geocoder) {
+        geocoder.geocode({'latLng': latLng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                for(i=1;i<results.length;i++){
+                    if (results[i].types.length >= 2 && results[i].types[1] == "political") {
+                        if(results[i].formatted_address.indexOf("日本") != -1){
+                            geocodeAddress = results[i].formatted_address.substring(2);
+                        }else{
+                            geocodeAddress = results[i].formatted_address;
+                        }
+                        break;
+                    }
+                }
+                if(geocodeAddress){
+                    infowindow.set_content('<strong>現在地：</strong><br /><span style="font-size:80%">'+geocodeAddress+'</span><br /><strong>GeoPo：</strong><br /><span style="font-size:80%">http://geopo.at/'+geopo+'</span><hr /><a href="http://twitter.com/home?status='+encodeURIComponent(' L:'+geocodeAddress+' http://geopo.at/'+geopo)+'" target="twitter">TwitterにPOSTする</a>');
+                    infowindow.open(map, marker);
+                } else{
+                    alert("現在地が取得できませんでした＞＜");
+                }
+            } else {
+                alert("Geocoder failed due to: " + status);
+            }
+        });
+    }
+    
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
+}
+
+function handleError(positionError) {
+    alert('Attempt to get location failed: ' + positionError.message);
+}
+
+geo.getCurrentPosition(displayMap, handleError);
+
+</script>
+</head>
+<body style="margin:0px; padding:0px;">
+  <div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>
