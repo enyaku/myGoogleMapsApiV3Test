@@ -1,0 +1,8 @@
+<?php /* /usr/local/var/www/htdocs/bnb/extensions/system/views/admin/dashboard/feed/index.razr */ extract(array (  'widget' => NULL,), EXTR_SKIP) ?><?php echo($this->getDirective('script')->call(array('feed', 'extension://system/assets/js/dashboard/feed.js', ['requirejs']))) ?>
+
+<?php if($this->getAttribute($this->getAttribute($widget, 'settings'), 'title')) :?>
+<h1 class="uk-h3"><?php echo $this->escape(( $this->getAttribute($this->getAttribute($widget, 'settings'), 'title') ) ) ?></h1>
+<?php endif ?>
+<div class="js-feed" data-feed="<?php echo $this->escape(( $this->callFunction('json', array(['url' => $this->getAttribute($this->getAttribute($widget, 'settings'), 'url'), 'count' => $this->getAttribute($this->getAttribute($widget, 'settings'), 'count'), 'content' => $this->getAttribute($this->getAttribute($widget, 'settings'), 'content'), 'onFirst' => $this->getAttribute($this->getAttribute($widget, 'settings'), 'onFirst')])) ) ) ?>">
+    <div class="js-spinner uk-text-center"><i class="uk-icon-medium uk-icon-spinner uk-icon-spin"></i></div>
+</div>

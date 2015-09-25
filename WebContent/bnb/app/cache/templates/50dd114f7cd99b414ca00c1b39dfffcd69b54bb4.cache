@@ -1,0 +1,89 @@
+<?php /* /usr/local/var/www/htdocs/bnb/themes/alpha/templates/template.razr */ extract(array (  'theme' => NULL,), EXTR_SKIP) ?><!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="<?php echo($this->getDirective('url')->call(array('extension://system/theme/favicon.ico'))) ?>" rel="shortcut icon" type="image/x-icon">
+        <link href="<?php echo($this->getDirective('url')->call(array('extension://system/theme/apple_touch_icon.png'))) ?>" rel="apple-touch-icon-precomposed">
+        <?php $app['view.sections']->output('head') ?>
+        <?php echo($this->getDirective('style')->call(array('theme', 'theme://alpha/css/theme.css'))) ?>
+        <?php echo($this->getDirective('script')->call(array('jquery'))) ?>
+        <?php echo($this->getDirective('script')->call(array('uikit'))) ?>
+    </head>
+    <body>
+
+        <div class="uk-container uk-container-center">
+
+            <?php if($this->callFunction('hasSection', array('logo'))) :?>
+            <div class="tm-logo uk-hidden-small">
+                <a href="<?php echo($this->getDirective('url')->call(array())) ?>" class="tm-brand"><?php $app['view.sections']->output('logo', ['renderer' => 'blank']) ?></a>
+            </div>
+            <?php endif ?>
+
+            <?php if($this->callFunction('hasSection', array('navbar'))) :?>
+            <div class="tm-navbar">
+
+                <nav class="uk-navbar uk-hidden-small">
+                    <?php $app['view.sections']->output('navbar', ['renderer' => 'navbar']) ?>
+                </nav>
+
+                <?php if($this->callFunction('hasSection', array('offcanvas'))) :?>
+                <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+                <?php endif ?>
+
+                <?php if($this->callFunction('hasSection', array('logo-small'))) :?>
+                <div class="uk-navbar-content uk-navbar-center uk-visible-small">
+                    <a href="<?php echo($this->getDirective('url')->call(array())) ?>" class="tm-brand"><?php $app['view.sections']->output('logo-small', ['renderer' => 'blank']) ?></a>
+                </div>
+                <?php endif ?>
+
+            </div>
+            <?php endif ?>
+
+            <?php $app['view.sections']->output('messages') ?>
+
+            <?php if($this->callFunction('hasSection', array('top'))) :?>
+            <section class="uk-grid uk-grid-divider" data-uk-grid-match="{ target: '> div > .uk-panel' }" data-uk-grid-margin>
+                <?php $app['view.sections']->output('top', ['renderer' => 'grid']) ?>
+            </section>
+            <?php endif ?>
+
+            <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+
+                <div class="<?php echo $this->escape(( $this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute($theme, 'classes'), 'columns'), 'main'), 'class', array(), 'array') ) ) ?>">
+                    <?php $app['view.sections']->output('content') ?>
+                </div>
+
+                <?php if($this->callFunction('hasSection', array('sidebar-a'))) :?>
+                <aside class="<?php echo $this->escape(( $this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute($theme, 'classes'), 'columns'), 'sidebar-a', array(), 'array'), 'class', array(), 'array') ) ) ?>">
+                    <?php $app['view.sections']->output('sidebar-a', ['renderer' => 'panel']) ?>
+                </aside>
+                <?php endif ?>
+
+                <?php if($this->callFunction('hasSection', array('sidebar-b'))) :?>
+                <aside class="<?php echo $this->escape(( $this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute($theme, 'classes'), 'columns'), 'sidebar-b', array(), 'array'), 'class', array(), 'array') ) ) ?>">
+                    <?php $app['view.sections']->output('sidebar-b', ['renderer' => 'panel']) ?>
+                </aside>
+                <?php endif ?>
+
+            </div>
+
+            <?php if($this->callFunction('hasSection', array('footer'))) :?>
+            <footer class="uk-grid" data-uk-grid-match="{ target: '> div > .uk-panel' }" data-uk-grid-margin>
+                <?php $app['view.sections']->output('footer', ['renderer' => 'grid']) ?>
+            </footer>
+            <?php endif ?>
+
+        </div>
+
+        <?php if($this->callFunction('hasSection', array('offcanvas'))) :?>
+        <div id="offcanvas" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <?php $app['view.sections']->output('offcanvas', ['renderer' => 'offcanvas']) ?>
+            </div>
+        </div>
+        <?php endif ?>
+
+    </body>
+</html>

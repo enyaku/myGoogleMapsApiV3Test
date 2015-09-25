@@ -1,0 +1,78 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<title>Safari + Database</title>
+<style type="text/css"><!--
+h1 { font-size:16pt; }
+--></style>
+<script type="text/javascript"><!--
+// データベース作成
+var myDB = openDatabase("testDB");
+// ページが構築されたら処理を行う
+window.onload = function(){
+	var ele = document.getElementById("msg");
+	myDB.transaction(
+		function(tx){
+			tx.executeSql('CREATE TABLE gpstable(lat REAL, lng REAL, time REAL );');
+		},
+		function (err){
+			if (err.code == 1) {
+				ele.innerHTML = "データベースtestDBはすでにあります";
+			}else{
+				ele.innerHTML = "データベースエラーです : "+err.code;
+			}
+		},
+		function (){ ele.innerHTML = "testDBを作成しました"; }
+	);
+}
+// データベースへの保存
+function saveDB(){
+	myDB.transaction(
+		function(tx){
+			// 3つのデータを書き込む
+			tx.executeSql('INSERT INTO gpstable values (12.3, 45.6, 78.9)');
+		},
+		function(err){ alert("データベースエラー : "+err.code); },
+		function (){ document.getElementById("msg").innerHTML = "データを保存しました" }
+	);
+}
+// 保存してあるデータを読み出す
+function readDB(){
+	myDB.transaction(
+		function(tx){
+			// 全てのデータを読み出す
+			tx.executeSql('SELECT * from gpstable;',
+			[ ],
+			function (tx, rs){
+				var txt = "";
+				// データの数(rs.rows.length)だけ繰り返し読み出す
+				for (var i=0; i<rs.rows.length; i++){
+					var row = rs.rows.item(i);
+					txt = txt + row.lat+","+row.lng+" : "+row.time+"<br>";
+				}
+				// 画面に表示する
+				document.getElementById("msg").innerHTML = txt;
+			});
+		}
+	);
+}
+</script>
+</head>
+<body>
+<h1>Databaseへの書き込みと読み出し</h1>
+<a href="#" onclick="saveDB();return false;">SaveDB</a><br>
+<a href="#" onclick="readDB();return false;">DBレコード読み込み</a><br>
+<div id="msg"></div>
+</body>
+</html>
+
+
+
+
+
+
+

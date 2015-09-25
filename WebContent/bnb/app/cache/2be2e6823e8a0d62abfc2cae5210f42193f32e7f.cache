@@ -1,0 +1,63 @@
+<?php return array (
+  'lifetime' => 0,
+  'data' => 
+  array (
+    'class' => 'Pagekit\\Page\\Entity\\Page',
+    'eventPrefix' => 'page.page',
+    'events' => 
+    array (
+    ),
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'name' => 'id',
+        'type' => 'integer',
+        'id' => true,
+        'column' => 'id',
+      ),
+      'url' => 
+      array (
+        'name' => 'url',
+        'type' => 'string',
+        'column' => 'url',
+      ),
+      'title' => 
+      array (
+        'name' => 'title',
+        'type' => 'string',
+        'column' => 'title',
+      ),
+      'status' => 
+      array (
+        'name' => 'status',
+        'type' => 'integer',
+        'column' => 'status',
+      ),
+      'content' => 
+      array (
+        'name' => 'content',
+        'type' => 'string',
+        'column' => 'content',
+      ),
+      'data' => 
+      array (
+        'name' => 'data',
+        'type' => 'json_array',
+        'column' => 'data',
+      ),
+      'roles' => 
+      array (
+        'name' => 'roles',
+        'type' => 'simple_array',
+        'column' => 'roles',
+      ),
+    ),
+    'isMappedSuperclass' => false,
+    'relations' => 
+    array (
+    ),
+    'repositoryClass' => NULL,
+    'table' => '@page_page',
+  ),
+);

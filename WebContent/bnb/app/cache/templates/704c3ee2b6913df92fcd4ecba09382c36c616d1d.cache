@@ -1,0 +1,11 @@
+<?php /* /usr/local/var/www/htdocs/bnb/themes/alpha/views/renderer/position.navbar.razr */ extract(array (  'value' => NULL,  'widget' => NULL,  'options' => NULL,), EXTR_SKIP) ?><?php foreach($value as $widget) :?>
+    <?php if($this->getAttribute($widget, 'type') == 'widget.menu') :?>
+
+    <?php echo($this->getAttribute($widget, 'render', array(array_merge(['layout' => 'extension://system/views/widgets/menu/navbar.razr'], $options)), 'method')) ?>
+
+    <?php else :?>
+
+    <?php echo($this->getAttribute($widget, 'render', array($options), 'method')) ?>
+
+    <?php endif ?>
+<?php endforeach ?>

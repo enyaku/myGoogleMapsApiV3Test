@@ -1,0 +1,5 @@
+<?php /* /usr/local/var/www/htdocs/bnb/extensions/system/theme/views/renderer/toolbar.razr */ extract(array (  'value' => NULL,), EXTR_SKIP) ?><div class="tm-toolbar">
+    <div class="uk-clearfix uk-container uk-container-center">
+        <?php echo( $value ) ?>
+    </div>
+</div>

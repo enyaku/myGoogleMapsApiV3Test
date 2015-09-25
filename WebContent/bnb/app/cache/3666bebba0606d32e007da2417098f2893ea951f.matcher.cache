@@ -1,0 +1,50 @@
+<?php
+
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\RequestContext;
+
+/**
+ * UrlMatcher3666bebba0606d32e007da2417098f2893ea951f
+ *
+ * This class has been auto-generated
+ * by the Symfony Routing Component.
+ */
+class UrlMatcher3666bebba0606d32e007da2417098f2893ea951f extends Symfony\Component\Routing\Matcher\UrlMatcher
+{
+    /**
+     * Constructor.
+     */
+    public function __construct(RequestContext $context)
+    {
+        $this->context = $context;
+    }
+
+    public function match($pathinfo)
+    {
+        $allow = array();
+        $pathinfo = rawurldecode($pathinfo);
+        $context = $this->context;
+        $request = $this->request;
+
+        if (0 === strpos($pathinfo, '/installer')) {
+            // @installer/installer
+            if ($pathinfo === '/installer') {
+                return array (  '_controller' => 'Pagekit\\Installer\\Controller\\InstallerController::indexAction',  '_response' =>   array (    'value' => 'extension://installer/views/install.razr',  ),  '_route' => '@installer/installer',);
+            }
+
+            // @installer/installer/check
+            if ($pathinfo === '/installer/check') {
+                return array (  '_controller' => 'Pagekit\\Installer\\Controller\\InstallerController::checkAction',  '_request' =>   array (    'value' =>     array (      'config' => 'array',    ),  ),  '_response' =>   array (    'value' => 'json',  ),  '_route' => '@installer/installer/check',);
+            }
+
+            // @installer/installer/install
+            if ($pathinfo === '/installer/install') {
+                return array (  '_controller' => 'Pagekit\\Installer\\Controller\\InstallerController::installAction',  '_request' =>   array (    'value' =>     array (      'config' => 'array',      'option' => 'array',      'user' => 'array',    ),  ),  '_response' =>   array (    'value' => 'json',  ),  '_route' => '@installer/installer/install',);
+            }
+
+        }
+
+        throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
+    }
+}

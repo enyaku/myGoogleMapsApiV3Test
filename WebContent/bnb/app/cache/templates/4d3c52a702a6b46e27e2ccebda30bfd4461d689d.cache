@@ -1,0 +1,8 @@
+<?php /* /usr/local/var/www/htdocs/bnb/extensions/page/views/index.razr */ extract(array (  'page' => NULL,), EXTR_SKIP) ?><article class="uk-article">
+
+    <?php if($this->getAttribute($page, 'get', array('title', true), 'method')) :?>
+    <h1 class="uk-article-title"><?php echo $this->escape(($this->getAttribute($page, 'title')) ) ?></h1>
+    <?php endif ?>
+
+    <?php echo($this->getAttribute($page, 'content')) ?>
+</article>

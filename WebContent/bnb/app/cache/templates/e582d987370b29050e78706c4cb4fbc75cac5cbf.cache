@@ -1,0 +1,17 @@
+<?php /* /usr/local/var/www/htdocs/bnb/extensions/system/views/admin/dashboard/user/index.razr */ extract(array (  'widget' => NULL,  'users' => NULL,  'user' => NULL,), EXTR_SKIP) ?><?php echo($this->getDirective('script')->call(array('user', 'extension://system/assets/js/dashboard/user.js', ['requirejs']))) ?>
+
+<?php if($this->getAttribute($widget, 'get', array('show'), 'method') == 'registered') :?>
+<h1 class="uk-h3"><?php echo _c('{0} No users registered|{1} Last %users% registered user|]1,Inf[ Last %users% registered users', count($users), ['%users%' => count($users)]) ?></h1>
+<?php else :?>
+<h1 class="uk-h3"><?php echo _c('{0} No users logged in|{1} %users% user logged in|]1,Inf[ %users% users logged in', count($users), ['%users%' => count($users)]) ?></h1>
+<?php endif ?>
+
+<ul class="uk-grid uk-grid-small uk-grid-preserve uk-grid-width-1-4 uk-grid-width-small-1-6 uk-grid-width-medium-1-3 uk-grid-width-xlarge-1-4" data-uk-grid-margin>
+    <?php foreach($users as $user) :?>
+    <li>
+        <a href="<?php echo($this->getDirective('url')->call(array('@system/user/edit', ['id' => $this->getAttribute($user, 'id')]))) ?>" title="<?php echo $this->escape(($this->getAttribute($user, 'username')) ) ?>">
+            <img class="uk-border-rounded" width="200" height="200" alt="<?php echo $this->escape(($this->getAttribute($user, 'username')) ) ?>" data-avatar="<?php echo $this->escape(($this->getAttribute($user, 'email')) ) ?>">
+        </a>
+    </li>
+    <?php endforeach ?>
+</ul>

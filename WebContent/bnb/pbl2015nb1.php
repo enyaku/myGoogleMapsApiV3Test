@@ -1,0 +1,248 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>0605[ボタン型]感覚ナビゲーションシステム</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<div class="page-header">
+			<h1>クラウドリモコン振動ナビゲーション支援システム</h1>
+		</div>
+		<form method="POST">
+
+
+
+
+                        <h1>前</h1>
+
+
+
+                        <input class="btn btn-default btn-lg" type="submit" name="cmd" value="ON-B"/>
+                        <input class="btn btn-default btn-lg" type="submit" name="cmd" value="OFF-B"/>
+
+
+
+
+<br/>
+
+
+
+
+                        <h1>後</h1>
+
+
+
+                        <input class="btn btn-default btn-lg" type="submit" name="cmd" value="ON-A"/>
+                        <input class="btn btn-default btn-lg" type="submit" name="cmd" value="OFF-A"/>
+
+
+
+
+<br/>
+
+
+                        <h1>左側</h1>
+
+
+			<input class="btn btn-default btn-lg" type="submit" name="cmd" value="ON-L"> 
+			<input class="btn btn-default btn-lg" type="submit" name="cmd" value="OFF-L"> 
+<br/>
+
+
+
+
+                        <h1>右側</h1>
+
+
+
+                        <input class="btn btn-default btn-lg" type="submit" name="cmd" value="ON-R"/>
+                        <input class="btn btn-default btn-lg" type="submit" name="cmd" value="OFF-R"/>
+
+
+
+
+		</form> 
+
+		<?php
+		if (isset($_POST['cmd']) == TRUE)
+		{
+
+
+
+
+
+                        if ($_POST['cmd'] === "ON-B" || $_POST['cmd'] === "OFF-B")
+
+                        {
+
+                                $url = "https://api.spark.io/v1/devices/55ff6e066678505535441367/gtb";
+
+
+
+
+
+                        $data = array(
+
+
+                            'access_token' => '48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
+
+                            'params' => $_POST['cmd']
+                        );
+
+
+
+
+                        }
+
+
+
+                        else if ($_POST['cmd'] === "ON-A" || $_POST['cmd'] === "OFF-A")
+
+                        {
+
+                                $url = "https://api.spark.io/v1/devices/55ff6e066678505535441367/gta";
+
+
+
+
+
+                        $data = array(
+
+
+                            'access_token' => '48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
+
+                            'params' => $_POST['cmd']
+                        );
+
+
+
+
+                        }
+
+
+
+
+                       else if ($_POST['cmd'] === "ON-L" || $_POST['cmd'] === "OFF-L")
+
+                        {
+
+
+                                $url = "https://api.spark.io/v1/devices/55ff6e066678505535441367/gtl";
+
+
+                        $data = array(
+
+
+                            'access_token' => '48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
+
+                            'params' => $_POST['cmd']
+                        );
+
+
+
+
+
+                        }
+
+
+
+
+
+                        else if ($_POST['cmd'] === "ON-R" || $_POST['cmd'] === "OFF-R")
+
+                        {
+
+                                $url = "https://api.spark.io/v1/devices/55ff6e066678505535441367/gtr";
+
+
+
+
+
+                        $data = array(
+
+
+                            'access_token' => '48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
+
+                            'params' => $_POST['cmd']
+                        );
+
+
+
+
+                        }
+
+
+
+
+
+
+			$content = http_build_query($data);
+
+			$options = array('http' => array(
+				'timeout'=>10,
+			    'method' => 'POST',
+			    'content' => $content
+			));
+
+			$contents = @file_get_contents($url, false, stream_context_create($options));
+
+
+
+
+
+// Get cURL resource
+
+$curl = curl_init();
+
+// Set some options - we are passing in a useragent too here
+
+curl_setopt_array($curl, array(
+
+    CURLOPT_RETURNTRANSFER => 1,
+
+    CURLOPT_URL => 'https://api.spark.io/v1/devices/55ff6e066678505535441367/gtb/?access_token=48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
+
+    CURLOPT_USERAGENT => 'paulscott.co.za'
+
+));
+
+// Send the request & save response to $resp
+
+$resp = curl_exec($curl);
+
+// Close request to clear up some resources
+
+curl_close($curl);
+
+
+
+$data = json_decode($resp);
+
+$temp = $data->result;
+
+echo "<h3>Current 方向 is: " . $temp . " </h3>";
+
+
+
+
+print('URL='.$url);
+
+			if ($contents === FALSE)
+			{
+				echo '<p class="lead" style="color: red; font-size:36px;">Error!</p>';
+			}
+			else
+			{
+				echo '<p class="lead" style="color: blue; font-size:36px;">Success!</p>';
+			}
+		}
+		?>
+
+
+	</div>
+</body>
+</html>
+

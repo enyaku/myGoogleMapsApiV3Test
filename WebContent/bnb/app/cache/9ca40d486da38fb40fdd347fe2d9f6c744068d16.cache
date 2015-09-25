@@ -1,0 +1,102 @@
+<?php return array (
+  'lifetime' => 0,
+  'data' => 
+  array (
+    'class' => 'Pagekit\\Menu\\Entity\\Item',
+    'eventPrefix' => 'system.menuitem',
+    'events' => 
+    array (
+      'preSave' => 
+      array (
+        0 => 'preSave',
+      ),
+    ),
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'name' => 'id',
+        'type' => 'integer',
+        'id' => true,
+        'column' => 'id',
+      ),
+      'menuId' => 
+      array (
+        'name' => 'menuId',
+        'type' => 'integer',
+        'column' => 'menu_id',
+      ),
+      'parentId' => 
+      array (
+        'name' => 'parentId',
+        'type' => 'integer',
+        'column' => 'parent_id',
+      ),
+      'name' => 
+      array (
+        'name' => 'name',
+        'type' => 'string',
+        'column' => 'name',
+      ),
+      'url' => 
+      array (
+        'name' => 'url',
+        'type' => 'string',
+        'column' => 'url',
+      ),
+      'status' => 
+      array (
+        'name' => 'status',
+        'type' => 'smallint',
+        'column' => 'status',
+      ),
+      'priority' => 
+      array (
+        'name' => 'priority',
+        'type' => 'integer',
+        'column' => 'priority',
+      ),
+      'depth' => 
+      array (
+        'name' => 'depth',
+        'type' => 'integer',
+        'column' => 'depth',
+      ),
+      'pages' => 
+      array (
+        'name' => 'pages',
+        'type' => 'text',
+        'column' => 'pages',
+      ),
+      'data' => 
+      array (
+        'name' => 'data',
+        'type' => 'json_array',
+        'column' => 'data',
+      ),
+      'roles' => 
+      array (
+        'name' => 'roles',
+        'type' => 'simple_array',
+        'column' => 'roles',
+      ),
+    ),
+    'isMappedSuperclass' => false,
+    'relations' => 
+    array (
+      'menu' => 
+      array (
+        'name' => 'menu',
+        'type' => 'BelongsTo',
+        'targetEntity' => 'Pagekit\\Menu\\Entity\\Menu',
+        'keyFrom' => 'menu_id',
+        'keyTo' => NULL,
+        'orderBy' => 
+        array (
+        ),
+      ),
+    ),
+    'repositoryClass' => 'Pagekit\\Menu\\Entity\\ItemRepository',
+    'table' => '@system_menu_item',
+  ),
+);

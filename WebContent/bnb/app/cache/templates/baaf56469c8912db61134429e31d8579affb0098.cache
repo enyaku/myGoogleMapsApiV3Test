@@ -1,0 +1,40 @@
+<?php /* /usr/local/var/www/htdocs/bnb/extensions/system/views/admin/user/table.razr */ extract(array (  'users' => NULL,  'user' => NULL,  'app' => NULL,  'role' => NULL,), EXTR_SKIP) ?><?php if($users) :?>
+<table class="uk-table uk-table-hover uk-table-middle js-table-users">
+    <thead>
+        <tr>
+            <th class="pk-table-width-minimum"><input type="checkbox" class="js-select-all"></th>
+            <th colspan="2"><?php echo __('User') ?></th>
+            <th class="pk-table-width-100 uk-text-center"><?php echo __('Status') ?></th>
+            <th class="pk-table-width-200"><?php echo __('Email') ?></th>
+            <th class="pk-table-width-100"><?php echo __('Roles') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($users as $user) :?>
+        <tr>
+            <td><input class="js-select" type="checkbox" name="ids[]" value="<?php echo $this->escape(( $this->getAttribute($user, 'id') ) ) ?>"></td>
+            <td class="pk-table-width-minimum">
+                <img class="uk-img-preserve uk-border-circle" width="40" height="40" alt="" data-avatar="<?php echo $this->escape(( $this->getAttribute($user, 'email') ) ) ?>">
+            </td>
+            <td class="uk-text-nowrap">
+                <a href="<?php echo($this->getDirective('url')->call(array('@system/user/edit', ['id' => $this->getAttribute($user, 'id')]))) ?>"><?php echo $this->escape(( $this->getAttribute($user, 'username') ) ) ?></a>
+                <div class="uk-text-muted"><?php echo $this->escape(( $this->getAttribute($user, 'name') ) ) ?></div>
+            </td>
+            <td class="uk-text-center">
+                <?php if( $this->getAttribute($user, 'isNew') ) :?>
+                <a href="#" class="uk-icon-circle" data-action="<?php echo($this->getDirective('url')->call(array('@system/user/status', ['ids[]' => $this->getAttribute($user, 'id'), 'status' => 1]))) ?>" title="<?php echo __('New') ?>"></a>
+                <?php else :?>
+                <a href="#" class="uk-icon-circle uk-text-<?php echo $this->escape(( $this->getAttribute($user, 'status') ? 'success' : 'danger' ) ) ?>" data-action="<?php echo($this->getDirective('url')->call(array('@system/user/status', ['ids[]' => $this->getAttribute($user, 'id'), 'status' => $this->getAttribute($user, 'status') ? 0 : 1]))) ?>" title="<?php echo $this->escape(( $this->getAttribute($user, 'statusText') ) ) ?>"></a>
+                <?php endif ?>
+            </td>
+            <td>
+                <a href="mailto:<?php echo $this->escape(( $this->getAttribute($user, 'email') ) ) ?>"><?php echo $this->escape(( $this->getAttribute($user, 'email') ) ) ?></a><?php echo( $this->getAttribute($this->getAttribute($app, 'option'), 'get', array('system:user.require_verification'), 'method') && $this->getAttribute($user, 'get', array('verified'), 'method') ? ' <i title="'.__('Verified Email Address').'" class="uk-icon-check"></i>' : '' ) ?>
+            </td>
+            <td>
+                <?php echo $this->escape(( implode(', ', array_filter($this->getAttribute($user, 'roles'), function($role) { return $this->getAttribute($role, 'id') != 2; })) ) ) ?>
+            </td>
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+<?php endif ?>

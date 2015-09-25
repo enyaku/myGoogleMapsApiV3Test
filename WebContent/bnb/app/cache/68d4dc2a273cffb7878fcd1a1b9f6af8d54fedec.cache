@@ -1,0 +1,7 @@
+<?php return array (
+  'lifetime' => 0,
+  'data' => 
+  array (
+    'home' => '@page/id?id=1',
+  ),
+);

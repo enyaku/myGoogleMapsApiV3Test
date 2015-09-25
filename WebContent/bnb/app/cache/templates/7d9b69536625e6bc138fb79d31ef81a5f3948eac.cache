@@ -1,0 +1,1 @@
+<?php /* /usr/local/var/www/htdocs/bnb/extensions/system/views/tmpl/feed.error.razr */ ?><div class="js-error uk-alert uk-alert-danger"><?php echo __('Unable to retrieve feed data.') ?></div>

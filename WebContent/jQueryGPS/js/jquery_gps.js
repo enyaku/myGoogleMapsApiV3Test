@@ -66,7 +66,7 @@ window.onload=function(){
 	//fnDate()
 	setInterval(function(){
 	fnDate();
-	},1000);
+	},10000);
 }
 
 //js 

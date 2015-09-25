@@ -1,0 +1,81 @@
+<?php return array (
+  'lifetime' => 0,
+  'data' => 
+  array (
+    'class' => 'Pagekit\\Widget\\Entity\\Widget',
+    'eventPrefix' => 'system.widget',
+    'events' => 
+    array (
+    ),
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'name' => 'id',
+        'type' => 'integer',
+        'id' => true,
+        'column' => 'id',
+      ),
+      'type' => 
+      array (
+        'name' => 'type',
+        'type' => 'string',
+        'column' => 'type',
+      ),
+      'title' => 
+      array (
+        'name' => 'title',
+        'type' => 'string',
+        'column' => 'title',
+      ),
+      'position' => 
+      array (
+        'name' => 'position',
+        'type' => 'string',
+        'column' => 'position',
+      ),
+      'priority' => 
+      array (
+        'name' => 'priority',
+        'type' => 'integer',
+        'column' => 'priority',
+      ),
+      'status' => 
+      array (
+        'name' => 'status',
+        'type' => 'boolean',
+        'column' => 'status',
+      ),
+      'pages' => 
+      array (
+        'name' => 'pages',
+        'type' => 'text',
+        'column' => 'pages',
+      ),
+      'menuItems' => 
+      array (
+        'name' => 'menuItems',
+        'type' => 'simple_array',
+        'column' => 'menu_items',
+      ),
+      'settings' => 
+      array (
+        'name' => 'settings',
+        'type' => 'json_array',
+        'column' => 'data',
+      ),
+      'roles' => 
+      array (
+        'name' => 'roles',
+        'type' => 'simple_array',
+        'column' => 'roles',
+      ),
+    ),
+    'isMappedSuperclass' => false,
+    'relations' => 
+    array (
+    ),
+    'repositoryClass' => NULL,
+    'table' => '@system_widget',
+  ),
+);

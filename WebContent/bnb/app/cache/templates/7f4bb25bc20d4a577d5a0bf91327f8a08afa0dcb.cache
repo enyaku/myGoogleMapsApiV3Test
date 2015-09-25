@@ -1,0 +1,67 @@
+<?php /* /usr/local/var/www/htdocs/bnb/extensions/system/views/admin/user/index.razr */ extract(array (  'filter' => NULL,  'statuses' => NULL,  'id' => NULL,  'status' => NULL,  'roles' => NULL,  'role' => NULL,  'permissions' => NULL,  'ext' => NULL,  'permission' => NULL,  'perm' => NULL,  'users' => NULL,  'total' => NULL,), EXTR_SKIP) ?><?php echo($this->getDirective('script')->call(array('user', 'extension://system/assets/js/user/user.js', 'requirejs'))) ?>
+
+<form id="js-user" class="uk-form" method="post">
+
+    <?php $app['view.sections']->start('toolbar', 'show') ?>
+        <div class="uk-float-left">
+
+            <a class="uk-button uk-button-primary" href="<?php echo($this->getDirective('url')->call(array('@system/user/add'))) ?>"><?php echo __('Add User') ?></a>
+            <a class="uk-button pk-button-danger uk-hidden js-show-on-select" href="#" data-action="<?php echo($this->getDirective('url')->call(array('@system/user/delete'))) ?>"><?php echo __('Delete') ?></a>
+
+            <div class="uk-button-dropdown uk-hidden js-show-on-select" data-uk-dropdown="{ mode: 'click' }">
+                <button class="uk-button" type="button"><?php echo __('More') ?> <i class="uk-icon-caret-down"></i></button>
+                <div class="uk-dropdown uk-dropdown-small">
+                    <ul class="uk-nav uk-nav-dropdown">
+                        <li><a href="#" data-action="<?php echo($this->getDirective('url')->call(array('@system/user/status', ['status' => 1]))) ?>"><?php echo __('Activate') ?></a></li>
+                        <li><a href="#" data-action="<?php echo($this->getDirective('url')->call(array('@system/user/status', ['status' => 0]))) ?>"><?php echo __('Block') ?></a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="uk-float-right uk-hidden-small">
+
+            <select name="filter[status]">
+
+                <option value=""><?php echo __('- Status -') ?></option>
+                <option value="new"<?php echo $this->escape(( $this->getAttribute($filter, 'status', array(), 'array') == 'new' ? ' selected' : '' ) ) ?>><?php echo __('New') ?></option>
+                <?php foreach($statuses as $id => $status) :?>
+                <option value="<?php echo $this->escape(( $id ) ) ?>"<?php echo $this->escape(( is_numeric($this->getAttribute($filter, 'status', array(), 'array')) && $this->getAttribute($filter, 'status', array(), 'array') === $id ? ' selected' : '' ) ) ?>><?php echo $this->escape(( $status ) ) ?></option>
+                <?php endforeach ?>
+            </select>
+
+            <select name="filter[role]">
+                <option value=""><?php echo __('- Role -') ?></option>
+                <?php foreach($roles as $role) :?>
+                <option value="<?php echo $this->escape(( $this->getAttribute($role, 'id') ) ) ?>"<?php echo $this->escape(( $this->getAttribute($filter, 'role', array(), 'array') == $this->getAttribute($role, 'id') ? ' selected' : '') ) ?>><?php echo $this->escape(( $this->getAttribute($role, 'name') ) ) ?></option>
+                <?php endforeach ?>
+            </select>
+
+            <select class="uk-form-width-medium" name="filter[permission]">
+                <option value=""><?php echo __('- Permission -') ?></option>
+                <?php foreach($permissions as $ext => $permission) :?>
+                <optgroup label="<?php echo $this->escape(( $ext ) ) ?>">
+                    <?php foreach($permission as $id => $perm) :?>
+                    <option value="<?php echo $this->escape(( $id ) ) ?>"<?php echo $this->escape(( $this->getAttribute($filter, 'permission', array(), 'array') == $id ? ' selected' : '') ) ?>><?php echo __($this->getAttribute($perm, 'title', array(), 'array')) ?></option>
+                    <?php endforeach ?>
+                </optgroup>
+                <?php endforeach ?>
+            </select>
+
+            <input type="text" name="filter[search]" placeholder="<?php echo __('Search') ?>" value="<?php echo $this->escape(( $this->getAttribute($filter, 'search', array(), 'array') ) ) ?>">
+
+        </div>
+    <?php echo($app['view.sections']->end()) ?>
+
+    <p class="uk-alert uk-alert-info <?php echo $this->escape(( $users ? 'uk-hidden' : '' ) ) ?>"><?php echo __('No user found.') ?></p>
+
+    <div class="js-table uk-overflow-container">
+        <?php $_defined = array('extension://system/views/admin/user/table.razr', ['users' => $users]); echo($this->render($_defined[0], array_merge(get_defined_vars(), isset($_defined[1]) ? $_defined[1] : []))) ?>
+    </div>
+
+    <ul class="uk-pagination <?php echo $this->escape(( $total < 2 ? 'uk-hidden' : '' ) ) ?>" data-uk-pagination="{ pages: <?php echo $this->escape(( $total ) ) ?> }"></ul>
+    <input type="hidden" name="page" value="0">
+
+    <?php echo($this->getDirective('token')->call()) ?>
+
+</form>
