@@ -120,7 +120,8 @@ function initialize() {
   if (GBrowserIsCompatible()) {
     map = new GMap2(document.getElementById("map"));
 //35.670756, 139.823215
-    map.setCenter(new GLatLng(35.670756, 139.823215), 15);
+    //産業技術大学院大学の経度緯度：35.60616040857591,139.7488560912177
+    map.setCenter(new GLatLng(35.60616040857591,139.7488560912177), 15);
 
     //directions = new GDirections(map, null);
 
