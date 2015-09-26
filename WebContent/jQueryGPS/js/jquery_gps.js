@@ -20,7 +20,7 @@ $(function(){
 
 					var latlng = new GLatLng(position.coords.latitude,position.coords.longitude);
 					map.setCenter(latlng, 15, G_NORMAL_MAP);
-					
+					get_area_name(latlng);
 					 dispRoute();
 
 					//var marker = new GMarker(latlng);
@@ -43,6 +43,12 @@ $(function(){
 						if(point){
 							document.getElementById('click_lat').value = point.y;
 							document.getElementById('click_long').value = point.x;
+							
+					        var element = document.getElementById('geolocation');
+					        element.innerHTML = '緯度,経度: ' + point.y     + ',' +
+					                             point.x    + '' +
+					                            '<hr />' + element.innerHTML;
+					        
 						}
 					});
 				}
@@ -52,7 +58,17 @@ $(function(){
 });
 
 
-
+function get_area_name(latLng_now){
+    // 座標から住所名を取得
+    var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({latLng: latLng_now}, function(results, status){
+      if(status == google.maps.GeocoderStatus.OK){
+          document.getElementById("area_name").innerHTML = results[0].formatted_address+'付近にいます';
+      } else {
+        // エラーの場合
+      }
+    });
+  }
 
 
 
@@ -117,7 +133,7 @@ function initialize() {
   }
 }
 
-function dispRoute() {
+function dispRoute2() {
 	//alert("11111");
 	//getCurrentPosition2();
 	//alert("22222");
@@ -136,6 +152,44 @@ function dispRoute() {
   
   
 }
+
+
+
+function dispRoute() {
+  var from = document.getElementById("from").value;
+  var to = document.getElementById("to").value;
+
+  var flag;
+
+  
+  var option;
+  if (document.getElementById("flagTravelMode").value == "0"){
+	  option = {locale: 'ja_JP', travelMode: G_TRAVEL_MODE_WALKING};
+  }else if (document.getElementById("flagTravelMode").value == "1"){
+	  //option = {locale: 'ja_JP', travelMode: G_TRAVEL_MODE_DRIVING};
+	  
+	  if (document.getElementById("highway").value == "0"){
+		    flag = false;
+		    
+		  }else{
+		    flag = true;
+		  }
+	  option = {locale: 'ja_JP', avoidHighways: flag,travelMode: G_TRAVEL_MODE_DRIVING};
+  }
+  
+  directions.clear();
+
+  var pointArray = [from,to];
+  //var option = {locale: "ja_JP", avoidHighways: flag, G_TRAVEL_MODE_DRIVING: flagTravelM};
+  //var option = {locale: 'ja_JP', travelMode: G_TRAVEL_MODE_DRIVING};
+  //var option = {locale: 'ja_JP', avoidHighways: flag, travelMode: G_TRAVEL_MODE_DRIVING};
+  
+
+  directions.loadFromWaypoints(pointArray, option);
+  
+  
+}
+
 
 
 function onGDirectionsLoad(){ 
@@ -194,13 +248,14 @@ function createMarker(latlng, markerIdx, htmlStr) {
     var marker = new GMarker(latlng, markerOpts);
     marker.bindInfoWindowHtml(htmlStr);
     return marker; 
-  }
+}
 
 
 function clearRoute() {
 	  directions.clear();
 	  map.clearOverlays();
-	}
+}
+
 
 
 
