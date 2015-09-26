@@ -261,3 +261,102 @@ function clearRoute() {
 
 
 
+function getCurrentPosition() {
+	
+	
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(successCallback,errorCallback);
+		
+	} else {
+	    document.getElementById("map").innerHTML =  "Geolocationが利用できません";
+	}
+	
+	
+
+}
+
+
+function successCallback(position) {
+    //成功したときの処理
+    //result = '緯度:' + position.coords.latitude + '<br />';
+    //result += '経度:' + position.coords.longitude + '<br />';
+    //document.getElementById("map_canvas").innerHTML = result;
+    
+    if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+
+    	//var gmap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    	
+        map.setCenter(new GLatLng(position.coords.latitude,position.coords.longitude), 12);
+
+
+		//document.getElementById('click_lat').value = point.y;
+		//document.getElementById('click_long').value = point.x;
+		
+        var markerIcon1 = new GIcon();
+        markerIcon1.image = "./img/icon.png";
+        markerIcon1.iconSize = new GSize(42, 56);
+
+        var opt1 = {icon:markerIcon1};
+
+        var marker1 = new GMarker(new GLatLng(position.coords.latitude,position.coords.longitude), opt1);
+
+        map.addOverlay(marker1);
+      }
+    
+  
+}
+
+
+
+function errorCallback(error) {
+	   //失敗のときの処理
+	   document.getElementById("map").innerHTML = 'Geolocationが利用できません';
+}
+
+
+
+
+function goBefore() {
+	
+/*
+	var spark = require('spark');
+	var ret = spark.login({"accessToken": "[Device Token]"});
+	device.getVariable('detected', function(err, data) {
+	  if (err) {
+	    console.log('An error occurred while getting attrs:', err);
+	  } else {
+	    console.log('Core attr retrieved successfully:', data);
+	  }
+	});
+	
+*/
+/*
+    $url = "https://api.spark.io/v1/devices/55ff6e066678505535441367/gtb";
+	$data = array(
+		'access_token' => '48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
+		'params' => $_POST['cmd']
+	);
+	*/
+	
+	alert("前進");
+	var spark = require('spark');
+	var ret = spark.login({"48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58": "55ff6e066678505535441367/gtb"});
+	device.getVariable('detected', function(err, data) {
+	  if (err) {
+	    console.log('An error occurred while getting attrs:', err);
+	  } else {
+	    console.log('Core attr retrieved successfully:', data);
+	  }
+	});
+	
+	//curl “https://api.spark.io/v1/devices/yourCoreID/temperature?access_token=yourAccessToken”
+	//https://api.spark.io/v1/devices/yourCoreID/temperature?access_token=yourAccessToken
+	//curl -G https://api.spark.io/v1/devices/53ff6e066667574852402567/tempinC/?access_token=11fa6a2d61ba3ed644acdcde81c36017bacf626d
+	
+	//curl https://api.spark.io/v1/devices/55ff6e066678505535441367/gtb?access_token=48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58
+
+}
+
+
+

@@ -1,0 +1,34 @@
+{curl 6.0 applet}
+
+{import * from CURL.GUI.SHAPES}
+
+{define-class MyShape
+  {inherits RectangleShape}
+  
+  {constructor {default ...}
+    {construct-super ...}
+  }
+  
+  {method public {change-color color:String}:#String
+    set self.color = color
+    {return "changed-color"}
+  }
+}
+ 
+{value
+    let shape = 
+        {MyShape 
+            {GRect 1cm, 1cm, 1cm, 1cm},
+            color = "orange",
+            border-color = "silver",
+            border-width = 5px
+        }
+    
+    {{get-the-applet}.register-applet-invoke-handler
+        {Applet.applet-invoke-handler-for-object shape},
+        || Allow ANY page to host this applet and send it commands.
+        verifier = {proc {}:bool {return true}}
+    }
+    
+    shape
+}

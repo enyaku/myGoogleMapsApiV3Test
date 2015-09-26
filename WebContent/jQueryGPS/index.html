@@ -24,6 +24,9 @@
 <div id="contents">
 
 
+<iframe name="content_frame" marginwidth="0" marginheight="0" width="100%" height="220px" src="Spark-Core-Controller/index.html" frameborder="0"></iframe> 
+
+
 <a href="javascript:void(0);" id="start_gps">現在地のGPS情報取得を開始する</a>
 
 
@@ -52,7 +55,13 @@
            <input type="button" id="btn1" value="ルート案内" onclick="dispRoute()"/>
         
     <input type="button" id="btn3" value="現在地" onclick="getCurrentPosition()" />
+    
     <input type="button" id="btn2" value="クリア" onclick="clearRoute()" />
+    
+    
+    
+    <input type="button" id="btn5" value="前進" onclick="goBefore()" />
+    
     
         <select id="flagTravelMode">
     <option value="0">歩き</option>

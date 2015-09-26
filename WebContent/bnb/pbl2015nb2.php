@@ -44,26 +44,12 @@
 
 
                         if ($_POST['cmd'] === "ON-B" || $_POST['cmd'] === "OFF-B")
-
                         {
-
                                 $url = "https://api.spark.io/v1/devices/55ff6e066678505535441367/gtb";
-
-
-
-
-
-                        $data = array(
-
-
-                            'access_token' => '48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
-
-                            'params' => $_POST['cmd']
-                        );
-
-
-
-
+                        		$data = array(
+                            		'access_token' => '48e0e1ad38c2bb01f508b175ad71cf6d9f89aa58',
+                            		'params' => $_POST['cmd']
+                        		);
                         }
 
 

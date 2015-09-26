@@ -1,0 +1,51 @@
+
+<html><head><title>Javascript sample</title>
+
+<script type="text/javascript">
+
+// change color
+function changeColor(color) {
+  var shape = document.getElementById("shape");
+  if (shape.applet_invoke_ready)
+  {
+    alert(shape.applet_invoke("change-color", color) + ' to ' + color);
+  }
+  else
+  {
+    alert("not ready");
+  }
+}
+
+function onLoad()
+{
+  var shape = document.getElementById("shape");
+  shape.applet_invoke_ready_callback = 
+      function() {
+          if (!shape.applet_invoke_ready)
+          {
+              alert("not ready!");
+          }
+      };
+};
+
+</script></head>
+<body onload="setTimeout('onLoad()', 0)" 
+  onpageshow="if (event.persisted) setTimeout('onLoad()', 0);">
+<object id="shape" type="text/vnd.curl" 
+  data="sharp.curl" height="200" width="200">
+</object>
+
+<p>
+Color
+<select id="color" onchange="changeColor(value)">
+  <option value="red">red</option>
+  <option value="orange" selected="selected">orange</option>
+  <option value="yellow">yellow</option>
+  <option value="pink">pink</option>
+  <option value="lightsalmon">lightsalmon</option>
+  <option value="orchid">gray</option>
+</select>
+</p><p>
+
+</p></body></html>
+>
