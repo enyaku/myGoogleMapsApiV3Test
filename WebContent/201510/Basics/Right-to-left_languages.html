@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html dir="rtl">
+  <head>
+    <title>Right-to-Left Languages</title>
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+function initMap() {
+  var cairo = {lat: 30.064742, lng: 31.249509};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    scaleControl: true,
+    center: cairo,
+    zoom: 10
+  });
+
+  var infowindow = new google.maps.InfoWindow;
+  infowindow.setContent('<b>القاهرة</b>');
+
+  var marker = new google.maps.Marker({map: map, position: cairo});
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  });
+}
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvsSHWi2gggVVWG6Cmgi_kMD9IDwP0fI8&signed_in=true&language=ar&callback=initMap"></script>
+  </body>
+</html>
